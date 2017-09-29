@@ -22,8 +22,8 @@ sudo cp etc/systemd/influxdb.service /etc/systemd/system/
 # Create database
 docker run --rm \
       -e INFLUXDB_DB=house -e INFLUXDB_ADMIN_ENABLED=true \
-      -e INFLUXDB_ADMIN_USER=healem -e INFLUXDB_ADMIN_USER=P1550ffUF4gg0t \
-      -e INFLUXDB_USER=telegraf -e INFLUXDB_USER_PASSWORD=P1550ffUF4gg0t \
+      -e INFLUXDB_ADMIN_USER=admin -e INFLUXDB_ADMIN_USER=password \
+      -e INFLUXDB_USER=telegraf -e INFLUXDB_USER_PASSWORD=password \
       -v /mnt/fatboy/sauron/influxdb:/var/lib/influxdb influxdb:1.3.5-alpine \
       /init-influxdb.sh
 
