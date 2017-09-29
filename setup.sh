@@ -1,5 +1,7 @@
 #!/bin/bash
 
+############  INFLUXDB
+
 # Create influxdb network
 docker network create influxdb
 
@@ -27,7 +29,7 @@ docker run --rm \
       -v /mnt/fatboy/sauron/influxdb:/var/lib/influxdb influxdb:1.3.5-alpine \
       /init-influxdb.sh
 
-###########
+###########  TELEGRAF
 
 # Get telegraf container
 sudo docker pull telegraf:1.4.1-alpine
@@ -43,7 +45,7 @@ cd ~/sauron
 # Install systemd service file
 sudo cp etc/systemd/telegraf.service /etc/systemd/system/
 
-############
+############  CHRONOGRAF
 
 # Get chronograf container
 sudo docker pull chronograf:1.3.8.2-alpine
@@ -54,7 +56,7 @@ mkdir -p /mnt/fatboy/sauron/chronograf
 # Install systemd service file
 sudo cp etc/systemd/chronograf.service /etc/systemd/system/
 
-#############
+#############  KAPACITOR
 
 # Get kapacitor container
 sudo docker pull kapacitor:1.3.3-alpine
@@ -65,14 +67,33 @@ mkdir -p /mnt/fatboy/sauron/kapacitor/conf
 
 # Get config file
 cd /mnt/fatboy/sauron/kapacitor/conf
-docker run --rm kapacitor kapacitord config > kapacitor.conf
+docker run --rm kapacitor:1.3.3-alpine kapacitord config > kapacitor.conf
 cd ~/sauron
 
 # Install systemd service file
 sudo cp etc/systemd/kapacitor.service /etc/systemd/system/
 
+##############  RABBITMQ BROKER
+
+# Get RabbitMQ container
+sudo docker pull rabbitmq:3.6.12-alpine
+
+# Create dirs
+mkdir -p /mnt/fatboy/sauron/rabbitmq/data
+mkdir -p /mnt/fatboy/sauron/rabbitmq/conf
+
+# Get config
+sudo docker cp <containerID>:/etc/rabbitmq/rabbitmq.config /mnt/fatboy/sauron/rabbitmq/conf/
+
+# Install systemd service file
+sudo cp etc/systemd/rabbitmq.service /etc/systemd/system/
+
+#  { vm_memory_high_watermark, {absolute, 128MiB} }
+
 # Rescan systemd daemons
 sudo systemctl daemon-reload
+
+
 
 
 

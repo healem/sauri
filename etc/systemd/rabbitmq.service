@@ -1,0 +1,13 @@
+[Unit]
+Description=RabbitMQ Broker
+Requires=docker.service
+After=docker.service telegraf.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --name rabbitmq -h rabbitmq --net=influxdb -p 5678:5678 -v /mnt/fatboy/sauron/rabbitmq/data:/var/lib/rabbitmq -v /mnt/fatboy/sauron/rabbitmq/conf/rabbitmq.config:/etc/rabbitmq/rabbitmq.config rabbitmq:3.6.12-alpine
+ExecStop=/usr/bin/docker stop -t 20 rabbitmq
+ExecStopPost=/usr/bin/docker rm rabbitmq
+
+[Install]
+WantedBy=default.target
