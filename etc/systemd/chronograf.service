@@ -1,0 +1,13 @@
+[Unit]
+Description=Chronograf Server
+Requires=docker.service
+After=docker.service influxdb.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --name chronograf -h chronograf --net=influxdb -p 8888:8888 -v /mnt/fatboy/sauron/chronograf:/var/lib/chronograf chronograf:1.3.8.2-alpine --influxdb-url=http://influxdb:8086
+ExecStop=/usr/bin/docker stop -t 20 chronograf
+ExecStopPost=/usr/bin/docker rm chronograf
+
+[Install]
+WantedBy=default.target

@@ -6,7 +6,7 @@ After=docker.service mnt-fatboy.mount
 [Service]
 Restart=always
 ExecStart=/usr/bin/docker run --name influxdb -h influxdb --net=influxdb -v /mnt/fatboy/sauron/influxdb:/var/lib/influxdb -v /mnt/fatboy/sauron/influxdb/conf/influxdb.conf:/etc/influxdb/influxdb.conf:ro influxdb:1.3.5-alpine -config /etc/influxdb/influxdb.conf
-ExecStop=/usr/bin/docker stop -t 2 influxdb
+ExecStop=/usr/bin/docker stop -t 20 influxdb
 ExecStopPost=/usr/bin/docker rm influxdb
 
 [Install]

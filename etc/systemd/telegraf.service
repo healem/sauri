@@ -6,7 +6,7 @@ After=docker.service influxdb.service
 [Service]
 Restart=always
 ExecStart=/usr/bin/docker run --name telegraf -h telegraf --net=influxdb -p 5672:5672 -v /mnt/fatboy/sauron/telegraf/conf/telegraf.conf:/etc/telegraf/telegraf.conf:ro telegraf:1.4.1-alpine -config /etc/telegraf/telegraf.conf
-ExecStop=/usr/bin/docker stop -t 2 telegraf
+ExecStop=/usr/bin/docker stop -t 20 telegraf
 ExecStopPost=/usr/bin/docker rm telegraf
 
 [Install]

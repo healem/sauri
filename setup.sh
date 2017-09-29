@@ -7,9 +7,9 @@ docker network create influxdb
 sudo docker pull influxdb:1.3.5-alpine
 
 # Create data dirs
-# mkdir -p /mnt/fatboy/sauron/influxdb/conf
-# mkdir -p /mnt/fatboy/sauron/influxdb/data
-# mkdir -p /mnt/fatboy/sauron/influxdb/wal
+mkdir -p /mnt/fatboy/sauron/influxdb/conf
+mkdir -p /mnt/fatboy/sauron/influxdb/data
+mkdir -p /mnt/fatboy/sauron/influxdb/wal
 
 # Get config file
 cd /mnt/fatboy/sauron/influxdb/conf
@@ -27,12 +27,13 @@ docker run --rm \
       -v /mnt/fatboy/sauron/influxdb:/var/lib/influxdb influxdb:1.3.5-alpine \
       /init-influxdb.sh
 
+###########
 
-# Get tegraf container
+# Get telegraf container
 sudo docker pull telegraf:1.4.1-alpine
 
 # Create conf dir
-# mkdir -p /mnt/fatboy/sauron/telegraf/conf
+mkdir -p /mnt/fatboy/sauron/telegraf/conf
 
 # Get config file
 cd /mnt/fatboy/sauron/telegraf/conf
@@ -42,6 +43,36 @@ cd ~/sauron
 # Install systemd service file
 sudo cp etc/systemd/telegraf.service /etc/systemd/system/
 
+############
+
+# Get chronograf container
+sudo docker pull chronograf:1.3.8.2-alpine
+
+# Create data dir
+mkdir -p /mnt/fatboy/sauron/chronograf
+
+# Install systemd service file
+sudo cp etc/systemd/chronograf.service /etc/systemd/system/
+
+#############
+
+# Get kapacitor container
+sudo docker pull kapacitor:1.3.3-alpine
+
+# Chreate data and conf dirs
+mkdir -p /mnt/fatboy/sauron/kapacitor
+mkdir -p /mnt/fatboy/sauron/kapacitor/conf
+
+# Get config file
+cd /mnt/fatboy/sauron/kapacitor/conf
+docker run --rm kapacitor kapacitord config > kapacitor.conf
+cd ~/sauron
+
+# Install systemd service file
+sudo cp etc/systemd/kapacitor.service /etc/systemd/system/
+
 # Rescan systemd daemons
 sudo systemctl daemon-reload
+
+
 
