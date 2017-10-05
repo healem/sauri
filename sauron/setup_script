@@ -1,0 +1,5 @@
+virtualenv sauron --python=python2.7
+source sauron/bin/activate
+pip install -U pip wheel setuptools
+pip install -U mock
+pip install coverage
