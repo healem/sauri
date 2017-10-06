@@ -5,10 +5,11 @@ logger = logging.getLogger(__name__)
 
 class Sensor(object):
     """Generic sensor interface"""
-    def __init__(self, name, sensorCategory, sensorType, path):
+    def __init__(self, name, sensorCategory, sensorType, defaultUnit, path):
         self.sensorName = name
         self.sensorCategory = sensorCategory
         self.sensorType = sensorType
+        self.defaultUnit = defaultUnit
         if os.path.isfile(path):
             self.sensorPath = path
         else:
@@ -30,3 +31,10 @@ class Sensor(object):
     def getSensorType(self):
         """ Return sensor type """
         return self.sensorType
+    
+    def getDefaultUnit(self):
+        """ Return sensor default unit """
+        return self.defaultUnit
+    
+    def getData(self):
+        raise NotImplementedError("Abstract base class: does not implement getData")

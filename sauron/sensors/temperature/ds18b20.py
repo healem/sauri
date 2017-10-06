@@ -8,9 +8,9 @@ logger = logging.getLogger(__name__)
 
 class Ds18b20(TemperatureSensor):
     """Gets data from DS18B20 temperature sensor """
-    def __init__(self, name, path):
+    def __init__(self, name, defaultUnit, path):
         """Initialize the sensor object """
-        super(Ds18b20, self).__init__(name, Type.DS18B20, path)
+        super(Ds18b20, self).__init__(name, Type.DS18B20, defaultUnit, path)
     
     def getRawData(self):
         """ Get the raw temperature reading from the sensor

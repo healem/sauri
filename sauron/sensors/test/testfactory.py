@@ -17,7 +17,7 @@ class SensorFactoryTest(unittest.TestCase):
     @patch('os.path.isfile')    
     def test_sensorGood(self, osMock):
         osMock.return_value = True
-        cfg = {'category': 'temperature', 'path': '/sys/bus/w1/devices/28-000006156fd4', 'type': 'ds18b20', 'name': 'hotwaterBoilerFeed'}
+        cfg = {'category': 'temperature', 'path': '/sys/bus/w1/devices/28-000006156fd4', 'units': 'F', 'type': 'ds18b20', 'name': 'hotwaterBoilerFeed'}
         sensor = SensorFactory.getSensor(cfg)
         self.assertIsInstance(sensor, Ds18b20)
         self.assertIsInstance(sensor, TemperatureSensor)
@@ -26,7 +26,7 @@ class SensorFactoryTest(unittest.TestCase):
     @patch('os.path.isfile')    
     def test_sensorBad(self, osMock):
         osMock.return_value = True
-        cfg = {'category': 'bad_cat', 'path': '/sys/bus/w1/devices/28-000006156fd4', 'type': 'ds18b20', 'name': 'hotwaterBoilerFeed'}
+        cfg = {'category': 'bad_cat', 'path': '/sys/bus/w1/devices/28-000006156fd4', 'units': 'F', 'type': 'ds18b20', 'name': 'hotwaterBoilerFeed'}
         with self.assertRaises(ValueError):
             sensor = SensorFactory.getSensor(cfg)
             

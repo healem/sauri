@@ -16,7 +16,7 @@ class TemperatureSensorFactory(object):
             TemperatureSensor : TemperatureSensor object
         """
         if (sensorConfig['type'] == Type.DS18B20):
-            sensor = Ds18b20(sensorConfig['name'], sensorConfig['path'])
+            sensor = Ds18b20(sensorConfig['name'], sensorConfig['units'], sensorConfig['path'])
             return sensor
         else:
             logger.error("TemperatureSensor type {} not found".format(sensorConfig['type']))

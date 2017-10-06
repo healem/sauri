@@ -13,6 +13,7 @@ class Ds18b20Test(unittest.TestCase):
     invalidTemp = "93 01 4b 46 7f ff 0d 10 32 : crc=32 YES\n93 01 4b 46 7f ff 0d 10 32 t=dfhg"
     empty = ""
     name = "testSensorName"
+    du = 'F'
 
     @classmethod
     def setUpClass(cls):
@@ -23,24 +24,30 @@ class Ds18b20Test(unittest.TestCase):
     def test_invalidPath(self, osMock):
          osMock.return_value = False
          with self.assertRaises(IOError):
-            t = Ds18b20(Ds18b20Test.name, "/tmp")
+            t = Ds18b20(Ds18b20Test.name, Ds18b20Test.du, "/tmp")
             
     @patch('os.path.isfile')
     def test_getName(self, osMock):
         osMock.return_value = True
-        sensor = Ds18b20(Ds18b20Test.name, "/file")
+        sensor = Ds18b20(Ds18b20Test.name, Ds18b20Test.du, "/file")
         self.assertEqual(sensor.getName(), Ds18b20Test.name)
         
     @patch('os.path.isfile')
     def test_getPath(self, osMock):
         osMock.return_value = True
-        sensor = Ds18b20(Ds18b20Test.name, "/file")
+        sensor = Ds18b20(Ds18b20Test.name, Ds18b20Test.du, "/file")
         self.assertEqual(sensor.getPath(), "/file")
+        
+    @patch('os.path.isfile')
+    def test_getDefaultUnit(self, osMock):
+        osMock.return_value = True
+        sensor = Ds18b20(Ds18b20Test.name, Ds18b20Test.du, "/file")
+        self.assertEqual(sensor.getDefaultUnit(), Ds18b20Test.du)
         
     @patch('os.path.isfile')
     def _getSensor(self, osMock):
         osMock.return_value = True
-        sensor = Ds18b20(Ds18b20Test.name, "/file")
+        sensor = Ds18b20(Ds18b20Test.name, Ds18b20Test.du, "/file")
         return sensor
     
     def test_getCGood(self):
