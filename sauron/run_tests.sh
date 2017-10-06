@@ -1,4 +1,4 @@
 #!/bin/bash
 
-coverage run -m --omit=/home/healem/projects/automation/sauron/sauron/lib/* sensors.temperature.test.testds18b20
+coverage run -m --omit=/home/healem/projects/automation/sauron/sauron/lib/* unittest discover --pattern=test*.py
 coverage report -m

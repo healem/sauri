@@ -1,32 +1,16 @@
 import os.path
 import time
 import logging
+from sensors.temperature.temperatureSensor import TemperatureSensor
+from sensors.temperature.types import Type
 
 logger = logging.getLogger(__name__)
 
-class Ds18b20(object):
+class Ds18b20(TemperatureSensor):
     """Gets data from DS18B20 temperature sensor """
-    def __init__(self, sensorName, sensorPath):
-        """Initialize the sensor object
-        
-        Args:
-            sensorName (str): Name of the sensor
-            sensorPath (str): Absolute path to the sensor
-        """
-        self.sensorName = sensorName
-        
-        if os.path.isfile(sensorPath):
-            self.sensorPath = sensorPath
-        else:
-            raise IOError("File {} does not exist".format(sensorPath))
-        
-    def getName(self):
-        """ Return sensor name """
-        return self.sensorName
-    
-    def getPath(self):
-        """ Return sensor path """
-        return self.sensorPath
+    def __init__(self, name, path):
+        """Initialize the sensor object """
+        super(Ds18b20, self).__init__(name, Type.DS18B20, path)
     
     def getRawData(self):
         """ Get the raw temperature reading from the sensor

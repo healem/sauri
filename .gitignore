@@ -3,3 +3,5 @@ pip-selfcheck.json
 share
 lib
 local
+*.pyc
+.coverage
