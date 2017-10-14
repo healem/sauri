@@ -79,8 +79,10 @@ sudo cp etc/systemd/kapacitor.service /etc/systemd/system/
 sudo docker pull rabbitmq:3.6.12-alpine
 
 # Create dirs
-mkdir -p /mnt/fatboy/sauron/rabbitmq/data
+mkdir -p /mnt/fatboy/sauron/rabbitmq/data/security
 mkdir -p /mnt/fatboy/sauron/rabbitmq/conf
+
+# Copy certificates to rabbitmq/data/security
 
 # Get config
 sudo docker cp <containerID>:/etc/rabbitmq/rabbitmq.config /mnt/fatboy/sauron/rabbitmq/conf/

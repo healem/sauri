@@ -20,3 +20,9 @@ sensors:
       category: temperature
       type : ds18b20
       units : F
+messaging:
+    brokers :
+        - type : amqp
+          address : 192.168.0.10
+          port : 5678
+          ssl_pass : lsuhertiohergnal4ghfsdbg
