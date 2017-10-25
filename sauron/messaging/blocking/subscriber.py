@@ -20,7 +20,7 @@ class AMQPSubscriber(AMQPBase):
         """
         super(AMQPSubscriber, self).__init__(host, port, caCertsFile, keyFile, certFile)
         
-    def subscribe(self, callback, topicNames, exchangeName, queueName=None, durable=False, autoDelete=False, noAck=False, exclusive=False, noWait=False, consumerTag=None):
+    def subscribe(self, callback, topicNames, exchangeName, queueName='', durable=False, autoDelete=False, noAck=True, exclusive=True, noWait=False, consumerTag=None):
         """ Subscribe to events on a queue for multiple topics
         
         Args:
@@ -32,16 +32,16 @@ class AMQPSubscriber(AMQPBase):
             autoDelete(bool):    Delete when no queues subscribed (optional)
             noAck (bool):        Will auto acknowledge is set to True
             exclusive (bool):    Only allow the current connection to access the queue (optional)
-            nowait (bool):       Don't wait for an answer (optional)
+            nowait (bool):       Don't wait for an answer (not yet supported)
             consumerTag(str):    Specify a consumer tag
             
         Returns:
             message (str): returns tuple of method object, properties, and the body
             
         """
-        qn = self.createQueue(queueName=queueName, durable=durable, auto_delete=autoDelete, exclusive=False, nowait=False)
+        qn = self.createQueue(queueName=queueName, durable=durable, autoDelete=autoDelete, exclusive=exclusive, nowait=noWait)
         for topic in topicNames:
-            self.bindToQueue(qn, exchangeName, topic, nowait)
+            self.bindToQueue(qn, exchangeName, topic)
             
         self.channel.basic_consume(consumer_callback=callback,
                                    queue=qn,

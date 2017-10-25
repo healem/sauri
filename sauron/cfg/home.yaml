@@ -20,12 +20,11 @@ sensors:
       category: temperature
       type : ds18b20
       units : F
-messaging:
-    brokers :
-        - type : amqp
-          address : 192.168.0.10
-          port : 5678
-          ssl_pass : lsuhertiohergnal4ghfsdbg
-          ca_certs : /home/healem/security/ca_certificate.pem
-          key_file : /home/healem/security/client_key.pem
-          cert_file : /home/healem/security/client_certificate.pem
+brokers :
+    - type : amqp
+      address : 192.168.0.10
+      port : 5678
+      ssl_pass : lsuhertiohergnal4ghfsdbg
+      ca_certs : /home/healem/security/ca_certificate.pem
+      key_file : /home/healem/security/client_key.pem
+      cert_file : /home/healem/security/client_certificate.pem
