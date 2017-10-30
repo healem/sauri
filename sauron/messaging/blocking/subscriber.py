@@ -39,6 +39,7 @@ class AMQPSubscriber(AMQPBase):
             message (str): returns tuple of method object, properties, and the body
             
         """
+        self.createExchange(exchangeName)
         qn = self.createQueue(queueName=queueName, durable=durable, autoDelete=autoDelete, exclusive=exclusive, nowait=noWait)
         for topic in topicNames:
             self.bindToQueue(qn, exchangeName, topic)
