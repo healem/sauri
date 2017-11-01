@@ -21,7 +21,9 @@ sensors:
       type : ds18b20
       units : F
 brokers :
-    - type : amqp
+    - name : minix
+      protocol : amqp
+      type : blocking
       address : 192.168.0.10
       port : 5678
       ssl_pass : lsuhertiohergnal4ghfsdbg

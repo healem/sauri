@@ -6,10 +6,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 class AMQPBase(object):
-    """Blocking message amqp publisher"""
+    """Blocking message amqp broker"""
     
     def __init__(self, host, port, caCertsFile, keyFile, certFile):
-        """ Initialization of AMQP publisher
+        """ Initialization of AMQP broker
         
         Args:
             host (str):          FQDN or IP of broker

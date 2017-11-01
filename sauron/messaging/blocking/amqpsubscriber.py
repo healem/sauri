@@ -20,7 +20,7 @@ class AMQPSubscriber(AMQPBase):
         """
         super(AMQPSubscriber, self).__init__(host, port, caCertsFile, keyFile, certFile)
         
-    def subscribe(self, callback, topicNames, exchangeName, queueName='', durable=False, autoDelete=False, noAck=True, exclusive=True, noWait=False, consumerTag=None):
+    def subscribe(self, callback, topicNames, exchangeName, queueName='', options=None):
         """ Subscribe to events on a queue for multiple topics
         
         Args:
@@ -28,27 +28,39 @@ class AMQPSubscriber(AMQPBase):
             topicNames (str[]):  Array of topicNames to filter on
             exchangeName (str):  Name of the exchange to join
             queueName (str):     Name of queue (optional)
-            durable (bool):      Survive a reboot (optional)
-            autoDelete(bool):    Delete when no queues subscribed (optional)
-            noAck (bool):        Will auto acknowledge is set to True
-            exclusive (bool):    Only allow the current connection to access the queue (optional)
-            nowait (bool):       Don't wait for an answer (not yet supported)
-            consumerTag(str):    Specify a consumer tag
+            options (str{}):
+                durable (bool):      Survive a reboot (optional)
+                autoDelete(bool):    Delete when no queues subscribed (optional)
+                noAck (bool):        Will auto acknowledge is set to True
+                exclusive (bool):    Only allow the current connection to access the queue (optional)
+                nowait (bool):       Don't wait for an answer (not yet supported)
+                consumerTag(str):    Specify a consumer tag
             
         Returns:
             message (str): returns tuple of method object, properties, and the body
             
         """
+        # set default options
+        opts = {'durable':False, 'autoDelete':False, 'noAck':True, 'exclusive':True, 'noWait':False, 'consumerTag':None}
+        # assign any user provided options
+        if options is not None:
+            for opt in options:
+                opts[opt] = options[opt]
+            
         self.createExchange(exchangeName)
-        qn = self.createQueue(queueName=queueName, durable=durable, autoDelete=autoDelete, exclusive=exclusive, nowait=noWait)
+        qn = self.createQueue(queueName=queueName,
+                              durable=opts['durable'],
+                              autoDelete=opts['autoDelete'],
+                              exclusive=opts['exclusive'],
+                              nowait=opts['noWait'])
         for topic in topicNames:
             self.bindToQueue(qn, exchangeName, topic)
             
         self.channel.basic_consume(consumer_callback=callback,
                                    queue=qn,
-                                   no_ack=noAck,
-                                   exclusive=exclusive,
-                                   consumer_tag=consumerTag)
+                                   no_ack=opts['noAck'],
+                                   exclusive=opts['exclusive'],
+                                   consumer_tag=opts['consumerTag'])
         
         self.channel.start_consuming()
         
