@@ -1,5 +1,4 @@
 import ssl
-import pika
 import logging
 from messaging.blocking.amqpbase import AMQPBase
 

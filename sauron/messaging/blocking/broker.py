@@ -28,6 +28,13 @@ class BlockingBroker(Broker):
         pub = self._getPublisher()
         pub.publishOneShot(exchangeName, topicName, message)
         
+    def disconnect(self):
+        if self.publisher is not None:
+            self.publisher.disconnect()
+            
+        if self.subscriber is not None:    
+            self.subscriber.disconnect()
+        
     def _getSubscriber(self):
         if self.subscriber is None:
             self.subscriber = BlockingMessagerFactory.getBlockingSubscriber(self.brokerConfig)

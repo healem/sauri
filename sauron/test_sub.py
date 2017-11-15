@@ -18,3 +18,6 @@ def messagePrinter(channel, method, props, body):
 for brokerConfig in cfg.brokers:
     broker = BrokerFactory.getBroker(brokerConfig)
     broker.subscribe(messagePrinter, topics, exchange)
+
+
+
