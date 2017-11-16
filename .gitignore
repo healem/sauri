@@ -5,3 +5,4 @@ lib
 local
 *.pyc
 .coverage
+dist
