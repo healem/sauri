@@ -6,21 +6,28 @@ from sensors.sensor import Sensor
 from sensors.temperature.temperatureSensor import TemperatureSensor
 from messaging.broker import Broker
 from messaging.factory import BrokerFactory
+import argparse
 
 loginit.initLogging()
 
-cfg = Config("cfg/home.yaml")
 exchange = "sauri"
 sensors =[]
 brokers = []
 
-def initialize():
+def parseArgs():
+    parser = argparse.ArgumentParser(description='Simple sensor collector')
+    parser.add_argument('-c', '--configFile', help='Full path to config file', required=True)
+    parser.add_argument('-i', '--interval', type=int, default=30, help='Time between sensor collections in seconds')
+    args = parser.parse_args()
+    return args
+
+def initialize(cfg):
     for brokerConfig in cfg.brokers:
         broker = BrokerFactory.getBroker(brokerConfig)
         brokers.append(broker)
         
     for sensorCfg in cfg.sensors:
-        sensor = SensorFactory(sensorCfg)
+        sensor = SensorFactory.getSensor(sensorCfg)
         sensors.append(sensor)
 
 def runCollection():
@@ -31,7 +38,9 @@ def runCollection():
             broker.publish(exchange, topic, reading)
             
 if (__name__ == '__main__'):
-    initialize()
+    args = parseArgs()
+    cfg = Config(args.configFile)
+    initialize(cfg)
     while True:
         runCollection()
         time.sleep(30)

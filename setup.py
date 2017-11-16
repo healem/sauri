@@ -5,7 +5,7 @@ setup(
     author='Mike Healey',
     author_email='healem@alum.rpi.edu',
     url='https://github.com/healem/sauri',
-    version='0.1',
+    version='0.4',
     packages=['sauri',
               'sauri.common',
               'sauri.messaging',
@@ -19,6 +19,7 @@ setup(
                       'coverage',
                       'PyYAML',
                       'pika',],
+    include_package_data=True,
     license='MIT',
     long_description=open('README').read(),
 )

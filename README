@@ -6,6 +6,10 @@ A simple home automation project written in Python (only tested with Python 2.7)
 
 pip install sauri
 
+## Running the application
+
+Execute collector.py from the distribution directory and follow the help
+
 ## Running the tests
 
  * cd sauri
