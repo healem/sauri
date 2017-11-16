@@ -45,6 +45,12 @@ class Ds18b20Test(unittest.TestCase):
         self.assertEqual(sensor.getDefaultUnit(), Ds18b20Test.du)
         
     @patch('os.path.isfile')
+    def test_getTopicPrefix(self, osMock):
+        osMock.return_value = True
+        sensor = Ds18b20(Ds18b20Test.name, Ds18b20Test.du, "/file")
+        self.assertEqual(sensor.getTopicPrefix(), "sensor.temperature.{}".format(Ds18b20Test.name))
+        
+    @patch('os.path.isfile')
     def _getSensor(self, osMock):
         osMock.return_value = True
         sensor = Ds18b20(Ds18b20Test.name, Ds18b20Test.du, "/file")

@@ -10,6 +10,7 @@ class Sensor(object):
         self.sensorCategory = sensorCategory
         self.sensorType = sensorType
         self.defaultUnit = defaultUnit
+        self.topicPrefix = "sensor.{}.{}".format(self.sensorCategory, self.sensorName)
         if os.path.isfile(path):
             self.sensorPath = path
         else:
@@ -35,6 +36,10 @@ class Sensor(object):
     def getDefaultUnit(self):
         """ Return sensor default unit """
         return self.defaultUnit
+    
+    def getTopicPrefix(self):
+        """ Return messaging topic prefix """
+        return self.topicPrefix
     
     def getData(self):
         raise NotImplementedError("Abstract base class: does not implement getData")
