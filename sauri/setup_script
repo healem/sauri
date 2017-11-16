@@ -1,5 +1,0 @@
-pip install -U pip wheel setuptools
-pip install -U mock
-pip install coverage
-pip install PyYAML
-pip install pika

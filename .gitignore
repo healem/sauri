@@ -1,8 +1,5 @@
-bin
-pip-selfcheck.json
-share
-lib
-local
 *.pyc
 .coverage
 dist
+MANIFEST
+*egg-info
