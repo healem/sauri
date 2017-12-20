@@ -1,0 +1,13 @@
+[Unit]
+Description=HASS Server
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --name hass -h hass --net=host -p 8123:8123 -v /mnt/fatboy/sauron/hass/conf/:/config homeassistant/home-assistant
+ExecStop=/usr/bin/docker stop -t 20 hass
+ExecStopPost=/usr/bin/docker rm hass
+
+[Install]
+WantedBy=default.target
