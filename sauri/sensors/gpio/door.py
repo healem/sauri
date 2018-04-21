@@ -3,16 +3,17 @@ import time
 import logging
 import RPi.GPIO as gpio
 from sensors.gpio.gpioSensor import GpioSensor
+from sensors.gpio.binary import Binary
 from sensors.gpio.types import Type
 from sensors.gpio.states import State
 
 logger = logging.getLogger(__name__)
 
-class Door(BinarySensor):
+class Door(Binary):
     """Gets data from door sensor """
     def __init__(self, name, pin):
         """Initialize the sensor object """
-        super(Binary, self).__init__(name, pin, gpio.IN, gpio.PUD_UP)
+        super(Door, self).__init__(name, Type.DOOR, pin, gpio.IN, gpio.PUD_UP)
         
     def getRawData(self):
         return self.getState()

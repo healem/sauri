@@ -25,10 +25,10 @@ class DoorTest(unittest.TestCase):
     def test_getStateOpen(self, gpioMock):
          gpioMock.return_value = 1
          sensor = Door(DoorTest.name, DoorTest.pin)
-         self.assertEqual(sensor.getState, State.OPEN)
+         self.assertEqual(sensor.getState(), State.OPEN)
          
     @patch('RPi.GPIO.input')
     def test_getStateClosed(self, gpioMock):
          gpioMock.return_value = 0
          sensor = Door(DoorTest.name, DoorTest.pin)
-         self.assertEqual(sensor.getState, State.CLOSED)
+         self.assertEqual(sensor.getState(), State.CLOSED)

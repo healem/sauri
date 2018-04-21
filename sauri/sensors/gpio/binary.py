@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 
 class Binary(GpioSensor):
     """Gets data from binary sensor """
-    def __init__(self, name, pin):
+    def __init__(self, name, gpioType, pin, ioMode, pullUpMode):
         """Initialize the sensor object """
-        super(Binary, self).__init__(name, Type.BINARY, pin, ioMode, pullUpMode)
+        super(Binary, self).__init__(name, gpioType, pin)
         gpio.setmode(gpio.BCM)
         gpio.setup(pin, ioMode, pull_up_down=pullUpMode)

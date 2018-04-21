@@ -11,11 +11,12 @@ class Sensor(object):
         self.sensorType = sensorType
         self.defaultUnit = defaultUnit
         self.topicPrefix = "sensor.{}.{}".format(self.sensorCategory, self.sensorName)
-        if os.path.isfile(path):
-            self.sensorPath = path
-        else:
-            logger.error("Sensor path {} does not exist".format(path))
-            raise IOError("File {} does not exist".format(path))
+        if path != None:
+            if os.path.isfile(path):
+                self.sensorPath = path
+            else:
+                logger.error("Sensor path {} does not exist".format(path))
+                raise IOError("File {} does not exist".format(path))
         
     def getName(self):
         """ Return sensor name """

@@ -9,8 +9,9 @@ logger = logging.getLogger(__name__)
 class GpioSensor(Sensor):
     """Generic gpio sensor interface"""
     def __init__(self, name, sensorType, pin):
-        super(GpioSensor, self).__init__(name, Category.GPIO, sensorType, None, pin)
+        super(GpioSensor, self).__init__(name, Category.GPIO, sensorType, None, None)
         self.callback = None
+        self.pin = pin
         
     def getRawData(self):
         raise NotImplementedError("Abstract base class: does not implement getRawData")
