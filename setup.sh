@@ -95,6 +95,19 @@ sudo cp etc/systemd/rabbitmq.service /etc/systemd/system/
 # Rescan systemd daemons
 sudo systemctl daemon-reload
 
+############### HASS
+
+# Get Home-Assistant container
+sudo docker pull homeassistant/home-assisstant
+
+# Create config dir
+mkdir -p /mnt/fatboy/sauron/hass/conf
+
+# Install systemd service file
+sudo cp etc/systemd/hass.service /etc/systemd/system
+
+# Rescan systemd daemon
+sudo systemctl daemon-reload
 
 
 
