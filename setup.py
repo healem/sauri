@@ -4,6 +4,7 @@ setup(
     name='Sauri',
     author='Mike Healey',
     author_email='healem@alum.rpi.edu',
+    description='Simple home automation script in the early phases of development'
     url='https://github.com/healem/sauri',
     version='0.4',
     packages=['sauri',

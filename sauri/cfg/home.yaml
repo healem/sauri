@@ -1,25 +1,45 @@
 ---
 sensors:
     - name : hotwaterBoilerFeed
-      path : /sys/bus/w1/devices/28-000006156fd4
+      path : /sys/bus/w1/devices/28-000006156fd4/w1_slave
       category: temperature
       type : ds18b20
       units : F
     - name : mainfloorBoilerFeed
-      path : /sys/bus/w1/devices/28-000006150bc0
+      path : /sys/bus/w1/devices/28-000006150bc0/w1_slave
       category: temperature
       type : ds18b20
       units : F
     - name : upstairsBoilerFeed
-      path : /sys/bus/w1/devices/28-000006156364
+      path : /sys/bus/w1/devices/28-000006156364/w1_slave
       category: temperature
       type : ds18b20
       units : F
     - name : woodBoilerOutlet
-      path : /sys/bus/w1/devices/28-000006150a43
+      path : /sys/bus/w1/devices/28-000006150a43/w1_slave
       category: temperature
       type : ds18b20
       units : F
+    - name : garageDoor
+      pin : 21
+      type : door
+      category: gpio
+    - name : mudRoomDoor
+      pin : 22
+      type : door
+      category: gpio
+    - name : frontDoor
+      pin : 23
+      type : door
+      category: gpio
+    - name : sliderDoor
+      pin : 24
+      type : door
+      category: gpio
+    - name : basementDoor
+      pin : 25
+      type : door
+      category: gpio
 brokers :
     - name : minix
       protocol : amqp
@@ -27,6 +47,6 @@ brokers :
       address : 192.168.0.10
       port : 5678
       ssl_pass : lsuhertiohergnal4ghfsdbg
-      ca_certs : /home/healem/security/ca_certificate.pem
-      key_file : /home/healem/security/client_key.pem
-      cert_file : /home/healem/security/client_certificate.pem
+      ca_certs : /etc/sauri/security/ca_certificate.pem
+      key_file : /etc/sauri/security/client_key.pem
+      cert_file : /etc/sauri/security/client_certificate.pem
