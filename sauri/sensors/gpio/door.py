@@ -26,30 +26,31 @@ class Door(Binary):
         
     def notifyOnStateChange(self, callback):
         if callback == None:
-            logger.error("Invalid callback registered for notifyOnStateChange for sensor {}".format(self.name))
-            raise ValueError("Cannot set callback to None on notifyOnStateChange for sensor {}".format(self.name))
+            logger.error("Invalid callback registered for notifyOnStateChange for sensor {}".format(self.sensorName))
+            raise ValueError("Cannot set callback to None on notifyOnStateChange for sensor {}".format(self.sensorName))
         
-        logger.info("Sensor {} will notify when its state changes".format(self.name))
+        logger.info("Sensor {} will notify when its state changes".format(self.sensorName))
         self.callback = callback
-        gpio.remote_event_detect(self.pin)
-        if self.getState() == State.Open:
-            gpio.add_event_detect(self.pin, gpio.FALLING, callback=self.handleStateChange, bouncetime=300)
+        gpio.remove_event_detect(self.pin)
+        if self.getState() == State.OPEN:
+            gpio.add_event_detect(self.pin, gpio.FALLING, callback=self._handleStateChange, bouncetime=300)
         else:
-            gpio.add_event_detect(self.pin, gpio.RISING, callback=self.handleStateChange, bouncetime=300)
+            gpio.add_event_detect(self.pin, gpio.RISING, callback=self._handleStateChange, bouncetime=300)
+            
+    def disableStateChangeNotification(self):
+        logger.info("Sensor {} will no longer notify when its state changes".format(self.sensorName))
+        gpio.remove_event_detect(self.pin)
+        self.callback = None
         
-    def handleStateChange(self, pin):
+    def _handleStateChange(self, pin):
         state = self.getState()
-        logger.debug("Sensor {} observed a state change to {}".format(self.name, state))
+        logger.debug("Sensor {} observed a state change to {}".format(self.sensorName, state))
         if self.callback == None:
-            logger.error("Got notified of state change on sensor {}, but no callback is registered".format(self.name))
+            logger.error("Got notified of state change on sensor {}, but no callback is registered".format(self.sensorName))
+            raise ValueError("Got notified of state change on sensor {}, but no callback is set".format(self.sensorName))
             
         self.callback(state)
         
         # re-register the callback
         self.notifyOnStateChange(self.callback)
-        
-    def disableStateChangeNotification(self):
-        logger.info("Sensor {} will no longer notify when its state changes".format(self.name))
-        gpio.remote_event_detect(self.pin)
-        self.callback = None
             
