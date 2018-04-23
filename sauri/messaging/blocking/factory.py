@@ -2,6 +2,7 @@ from messaging.types import Type
 from messaging.blocking.protocols import Protocol
 from messaging.blocking.amqppublisher import AMQPPublisher
 from messaging.blocking.amqpsubscriber import AMQPSubscriber
+from messaging.blocking.mqttpublisher import MQTTPublisher
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,6 +20,13 @@ class BlockingMessagerFactory(object):
         """
         if (brokerConfig['protocol'] == Protocol.AMQP):
             broker = AMQPPublisher(brokerConfig['address'],
+                                   brokerConfig['port'],
+                                   brokerConfig['ca_certs'],
+                                   brokerConfig['key_file'],
+                                   brokerConfig['cert_file'])
+            return broker
+        elif (brokerConfig['protocol'] == Protocol.MQTT):
+            broker = MQTTPublisher(brokerConfig['address'],
                                    brokerConfig['port'],
                                    brokerConfig['ca_certs'],
                                    brokerConfig['key_file'],
@@ -45,6 +53,8 @@ class BlockingMessagerFactory(object):
                                    brokerConfig['key_file'],
                                    brokerConfig['cert_file'])
             return broker
+        if (brokerConfig['protocol'] == Protocol.MQTT):
+            raise NotImplementedError("MQTT subscriber not yet implemented")
         else:
             logger.error("BlockingSubscriber protocol {} not found".format(brokerConfig['protocol']))
             raise ValueError("BlockingSubscriber protocol {} not found".format(brokerConfig['protocol']))

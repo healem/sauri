@@ -1,0 +1,31 @@
+---
+sensors:
+    - name : garageDoor
+      pin : 21
+      type : door
+      category: gpio
+    - name : mudRoomDoor
+      pin : 22
+      type : door
+      category: gpio
+    - name : frontDoor
+      pin : 23
+      type : door
+      category: gpio
+    - name : sliderDoor
+      pin : 24
+      type : door
+      category: gpio
+    - name : basementDoor
+      pin : 25
+      type : door
+      category: gpio
+brokers :
+    - name : hass
+      protocol : mqtt
+      type : blocking
+      address : 192.168.0.10
+      port : 1883
+      ca_certs : /etc/sauri/security/ca_certificate.pem
+      key_file : /etc/sauri/security/client_key.pem
+      cert_file : /etc/sauri/security/client_certificate.pem

@@ -7,7 +7,7 @@ from messaging.blocking.amqpsubscriber import AMQPSubscriber
 from messaging.blocking.amqppublisher import AMQPPublisher
 from pika.exceptions import ConnectionClosed,ChannelClosed,ChannelError,AMQPConnectionError
 
-class BlockingBrokerTest(unittest.TestCase):
+class BlockingBrokerAMQPTest(unittest.TestCase):
     
     config = {'name':'minix', 'protocol':'amqp', 'type':'blocking', 'address':'127.0.0.1', 'port':9999, 'ssl_pass':'pass',
               'ca_certs':'/home/ca.pem', 'key_file':'/home/key.pem', 'cert_file':'/home/cert.pem'}
@@ -15,11 +15,11 @@ class BlockingBrokerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         loginit.initTestLogging()
-        BlockingBrokerTest.logger = logging.getLogger(__name__)
+        BlockingBrokerAMQPTest.logger = logging.getLogger(__name__)
         
     @patch('os.path.isfile')
     def test_goodInit(self, osMock):
-        cfg = BlockingBrokerTest.config
+        cfg = BlockingBrokerAMQPTest.config
         osMock.return_value = True
         
         broker = BlockingBroker(cfg)
@@ -35,7 +35,7 @@ class BlockingBrokerTest(unittest.TestCase):
             
     @patch('os.path.isfile')
     def test_badCertsPath(self, osMock):
-        cfg = BlockingBrokerTest.config
+        cfg = BlockingBrokerAMQPTest.config
         osMock.return_value = False
         
         with self.assertRaises(IOError):
@@ -48,8 +48,8 @@ class BlockingBrokerTest(unittest.TestCase):
         exchange = "testExchange"
         topic1 = "topic.one"
         msg = "Test message"
-        self.broker.publish(exchange, topic1, msg)
-        BlockingBrokerTest.logger.info("Pika calls: {}".format(pikaMock.mock_calls))
+        self.broker.publish(topic1, msg, exchange)
+        BlockingBrokerAMQPTest.logger.info("Pika calls: {}".format(pikaMock.mock_calls))
 
         # Make sure the channel and connection are NOT closed after publishing a message
         pikaMock.return_value.channel.return_value.basic_publish.assert_called_with(body=msg, exchange=exchange, routing_key=topic1)
@@ -63,11 +63,11 @@ class BlockingBrokerTest(unittest.TestCase):
         exchange = "testExchange"
         topic1 = "topic.one"
         msg = "Test message"
-        self.broker.publishOneShot(exchange, topic1, msg)
-        BlockingBrokerTest.logger.info("Pika calls: {}".format(pikaMock.mock_calls))
+        self.broker.publishOneShot(topic1, msg, exchange)
+        BlockingBrokerAMQPTest.logger.info("Pika calls: {}".format(pikaMock.mock_calls))
 
         # Make sure the channel and connection are cleaned up after calling one shot
-        pikaMock.return_value.channel.return_value.basic_publish.assert_called_with(body=msg, exchange=exchange, routing_key=topic1)
+        pikaMock.return_value.channel.return_value.basic_publish.assert_called_with(exchange=exchange, routing_key=topic1, body=msg)
         pikaMock.return_value.channel.return_value.close.assert_called
         pikaMock.return_value.close.assert_called
         
@@ -83,7 +83,7 @@ class BlockingBrokerTest(unittest.TestCase):
         pikaMock.return_value.channel.return_value.start_consuming.assert_called
         
         self.broker.unsubscribe()
-        BlockingBrokerTest.logger.info("Pika unsubscribe calls: {}".format(pikaMock.mock_calls))
+        BlockingBrokerAMQPTest.logger.info("Pika unsubscribe calls: {}".format(pikaMock.mock_calls))
         pikaMock.return_value.channel.return_value.stop_consuming.assert_called
         
     @patch('messaging.blocking.amqpbase.BlockingConnection')
@@ -102,7 +102,7 @@ class BlockingBrokerTest(unittest.TestCase):
         calls = pikaMock.return_value.channel.return_value.queue_bind.call_args_list
         for call in calls:
             args, kwargs = call
-            BlockingBrokerTest.logger.info("Call {} with kwargs{}".format(i, kwargs))
+            BlockingBrokerAMQPTest.logger.info("Call {} with kwargs{}".format(i, kwargs))
             self.assertEquals(kwargs['exchange'], exchange)
             self.assertEquals(kwargs['routing_key'], topics[i])
             i = i + 1
@@ -246,7 +246,7 @@ class BlockingBrokerTest(unittest.TestCase):
     @patch('os.path.isfile')
     def _getBroker(self, osMock):
         osMock.return_value = True
-        return BlockingBroker(BlockingBrokerTest.config)
+        return BlockingBroker(BlockingBrokerAMQPTest.config)
     
     def testCallback(self):
         return True

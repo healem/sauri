@@ -19,7 +19,7 @@ class AMQPPublisher(AMQPBase):
         """
         super(AMQPPublisher, self).__init__(host, port, caCertsFile, keyFile, certFile)
             
-    def publish(self, exchangeName, topicName, message):
+    def publish(self, topicName, message, exchangeName):
         """ Publish message to exchange with routing key
         
         Args:
@@ -33,14 +33,14 @@ class AMQPPublisher(AMQPBase):
                                    routing_key = topicName,
                                    body = message)
         
-    def publishOneShot(self, exchangeName, topicName, message):
+    def publishOneShot(self, topicName, message, exchangeName):
         """ Connect, publish message, disconnect
         
         Args:
             same as publish
 
         """
-        self.publish(exchangeName, topicName, message)
+        self.publish(topicName, message, exchangeName)
         self.disconnect()
 
     

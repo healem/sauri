@@ -20,26 +20,6 @@ sensors:
       category: temperature
       type : ds18b20
       units : F
-    - name : garageDoor
-      pin : 21
-      type : door
-      category: gpio
-    - name : mudRoomDoor
-      pin : 22
-      type : door
-      category: gpio
-    - name : frontDoor
-      pin : 23
-      type : door
-      category: gpio
-    - name : sliderDoor
-      pin : 24
-      type : door
-      category: gpio
-    - name : basementDoor
-      pin : 25
-      type : door
-      category: gpio
 brokers :
     - name : minix
       protocol : amqp

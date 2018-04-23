@@ -20,13 +20,13 @@ class BlockingBroker(Broker):
         sub = self._getSubscriber()
         sub.unsubscribe()
     
-    def publish(self, exchangeName, topicName, message):
+    def publish(self, topicName, message, exchangeName=None):
         pub = self._getPublisher()
-        pub.publish(exchangeName, topicName, message)
+        pub.publish(topicName, message, exchangeName)
     
-    def publishOneShot(self, exchangeName, topicName, message):
+    def publishOneShot(self, topicName, message, exchangeName=None):
         pub = self._getPublisher()
-        pub.publishOneShot(exchangeName, topicName, message)
+        pub.publishOneShot(topicName, message, exchangeName)
         
     def disconnect(self):
         if self.publisher is not None:
