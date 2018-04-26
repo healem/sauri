@@ -55,21 +55,6 @@ class BlockingBrokerMQTTTest(unittest.TestCase):
         assert not mqttMock.disconnect.called
         
     @patch('messaging.blocking.mqttbase.MQTT.Client')
-    def test_goodPublishRetry(self, mqttMock):
-        self.broker = self._getBroker()
-        
-        topic1 = "topic.one"
-        msg = "Test message"
-        
-        mqttMock.return_value.publish.side_effect = iter([(self.broker.client.MQTT_ERR_NO_CONN, 0), (0,0)])
-        self.broker.publish(topic1, msg)
-        BlockingBrokerMQTTTest.logger.info("MQTT calls: {}".format(mqttMock.mock_calls))
-
-        # Make sure the channel and connection are NOT closed after publishing a message
-        mqttMock.return_value.publish.assert_called_with(topic1, msg, 2, True)
-        assert not mqttMock.disconnect.called
-        
-    @patch('messaging.blocking.mqttbase.MQTT.Client')
     def test_goodPublishOneShot(self, mqttMock):
         self.broker = self._getBroker()
         

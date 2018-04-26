@@ -81,5 +81,5 @@ class DoorTest(unittest.TestCase):
          sensor.disableStateChangeNotification()
          self.assertEqual(sensor.callback, None)
          
-    def dummyCallback(self, pin):
+    def dummyCallback(self, sensor, state):
         pass

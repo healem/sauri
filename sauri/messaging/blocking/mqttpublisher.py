@@ -38,12 +38,9 @@ class MQTTPublisher(MQTTBase):
             
         try:
             result, mid = self.client.publish(topicName, message, qos, retain)
-            if result == self.client.MQTT_ERR_NO_CONN:
-                self.reconnect()
-                result, mid = self.client.publish(topicName, message, qos, retain)
-                if result != self.client.MQTT_ERR_SUCCESS:
-                    logger.error("Unable to publish message: {} to topic {} on host {}".format(message, topicName, self.host))
-                    return
+            if result != self.client.MQTT_ERR_SUCCESS:
+                logger.error("Unable to publish message: {} to topic {} on host {}".format(message, topicName, self.host))
+                return
             logger.debug("Published message: {} to topic {} on host {}".format(message, topicName, self.host))
         except (ValueError):
             logger.error("Unable to publish message due to invalid topic, unset qos, or message is too long for topic: {} and message {}".format(topicName, message))

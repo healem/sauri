@@ -49,7 +49,7 @@ class Door(Binary):
             logger.error("Got notified of state change on sensor {}, but no callback is registered".format(self.sensorName))
             raise ValueError("Got notified of state change on sensor {}, but no callback is set".format(self.sensorName))
             
-        self.callback(state)
+        self.callback(self, state)
         
         # re-register the callback
         self.notifyOnStateChange(self.callback)
