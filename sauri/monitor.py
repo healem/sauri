@@ -1,7 +1,8 @@
+#!/usr/bin/python
 import logging
 from common.config import Config
 from common import loginit
-from time import sleep
+import time
 from sensors.factory import SensorFactory
 from sensors.sensor import Sensor
 from sensors.gpio.states import State
@@ -11,7 +12,7 @@ from messaging.factory import BrokerFactory
 import argparse
 
 loginit.initLogging()
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 exchange = "sauri"
 sensors =[]
@@ -37,6 +38,7 @@ def initialize(cfg):
         
     for sensorCfg in cfg.sensors:
         sensor = SensorFactory.getSensor(sensorCfg)
+        sensor.notifyOnStateChange(sensorChanged)
         sensors.append(sensor)
             
 if (__name__ == '__main__'):
@@ -44,4 +46,4 @@ if (__name__ == '__main__'):
     cfg = Config(args.configFile)
     initialize(cfg)
     while True:
-        time.sleep(30)
+        time.sleep(3000)

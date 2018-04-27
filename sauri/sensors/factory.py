@@ -1,5 +1,6 @@
 from sensors.categories import Category
 from sensors.temperature.factory import TemperatureSensorFactory
+from sensors.gpio.factory import GpioSensorFactory
 from common.config import Config
 
 import logging
@@ -19,6 +20,9 @@ class SensorFactory(object):
         """
         if (sensorConfig['category'] == Category.TEMPERATURE):
             sensor = TemperatureSensorFactory.getTemperatureSensor(sensorConfig)
+            return sensor
+        elif (sensorConfig['category'] == Category.GPIO):
+            sensor = GpioSensorFactory.getGpioSensor(sensorConfig)
             return sensor
         else:
             logger.error("Sensor category {} not found".format(sensorConfig['category']))

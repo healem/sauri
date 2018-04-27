@@ -1,5 +1,6 @@
 import ssl
 import logging
+import paho.mqtt.client as MQTT
 from messaging.blocking.mqttbase import MQTTBase
 
 logger = logging.getLogger(__name__)
@@ -38,7 +39,7 @@ class MQTTPublisher(MQTTBase):
             
         try:
             result, mid = self.client.publish(topicName, message, qos, retain)
-            if result != self.client.MQTT_ERR_SUCCESS:
+            if result != MQTT.MQTT_ERR_SUCCESS:
                 logger.error("Unable to publish message: {} to topic {} on host {}".format(message, topicName, self.host))
                 return
             logger.debug("Published message: {} to topic {} on host {}".format(message, topicName, self.host))

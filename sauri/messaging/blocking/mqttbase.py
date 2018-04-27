@@ -27,7 +27,8 @@ class MQTTBase(object):
         self.client.on_disconnect = self._on_disconnect
         self.client.on_publish = self._on_publish
         self.client.on_log = self._on_log
-        self.client.tls_set(ca_certs=self.caCertsFile, certfile=self.certFile, keyfile=self.keyFile, cert_reqs=ssl.CERT_REQUIRED,tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
+        #self.client.tls_set(ca_certs=self.caCertsFile, certfile=self.certFile, keyfile=self.keyFile, cert_reqs=ssl.CERT_NONE,tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
+        #self.client.tls_insecure_set(True)
         self.connected = False
         
     def connect(self):
@@ -71,15 +72,15 @@ class MQTTBase(object):
         logger.debug("Message published, mid: {}".format(mid))
         
     def _on_log(self, client, userdata, level, buf):
-        if level == MQTT_LOG_ERR:
+        if level == MQTT.MQTT_LOG_ERR:
             logger.error("MQTT Client: {}".format(buf))
-        elif level == MQTT_LOG_WARNING:
+        elif level == MQTT.MQTT_LOG_WARNING:
             logger.warn("MQTT Client: {}".format(buf))
-        elif level == MQTT_LOG_NOTICE:
+        elif level == MQTT.MQTT_LOG_NOTICE:
             logger.info("MQTT Client: {}".format(buf))
-        elif level == MQTT_LOG_INFO:
+        elif level == MQTT.MQTT_LOG_INFO:
             logger.info("MQTT Client: {}".format(buf))
-        elif level == MQTT_LOG_DEBUG:
+        elif level == MQTT.MQTT_LOG_DEBUG:
             logger.debug("MQTT Client: {}".format(buf))
 
         
