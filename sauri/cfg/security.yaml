@@ -17,7 +17,7 @@ sensors:
       type : door
       category: gpio
     - name : basementDoor
-      pin : 25
+      pin : 5
       type : door
       category: gpio
 brokers :
@@ -25,7 +25,7 @@ brokers :
       protocol : mqtt
       type : blocking
       address : 192.168.0.10
-      port : 1883
+      port : 8883
       ca_certs : /etc/sauri/security/ca_certificate.pem
       key_file : /etc/sauri/security/client_key.pem
       cert_file : /etc/sauri/security/client_certificate.pem

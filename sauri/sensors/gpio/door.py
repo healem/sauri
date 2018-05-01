@@ -29,13 +29,13 @@ class Door(Binary):
             logger.error("Invalid callback registered for notifyOnStateChange for sensor {}".format(self.sensorName))
             raise ValueError("Cannot set callback to None on notifyOnStateChange for sensor {}".format(self.sensorName))
         
-        logger.info("Sensor {} will notify when its state changes".format(self.sensorName))
+        logger.debug("Sensor {} will notify when its state changes".format(self.sensorName))
         self.callback = callback
         gpio.remove_event_detect(self.pin)
         if self.getState() == State.OPEN:
-            gpio.add_event_detect(self.pin, gpio.FALLING, callback=self._handleStateChange, bouncetime=300)
+            gpio.add_event_detect(self.pin, gpio.FALLING, callback=self._handleStateChange, bouncetime=500)
         else:
-            gpio.add_event_detect(self.pin, gpio.RISING, callback=self._handleStateChange, bouncetime=300)
+            gpio.add_event_detect(self.pin, gpio.RISING, callback=self._handleStateChange, bouncetime=500)
             
     def disableStateChangeNotification(self):
         logger.info("Sensor {} will no longer notify when its state changes".format(self.sensorName))

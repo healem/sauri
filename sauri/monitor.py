@@ -29,7 +29,7 @@ def sensorChanged(sensor, state):
     logger.debug("Sensor {} changed state to {}".format(sensor.sensorName, state))
     topic = "hass/{}/{}".format(sensor.sensorType, sensor.sensorName)
     for broker in brokers:
-        broker.publish(topic, state)
+        broker.publishOneShot(topic, state)
 
 def initialize(cfg):
     for brokerConfig in cfg.brokers:
@@ -40,6 +40,12 @@ def initialize(cfg):
         sensor = SensorFactory.getSensor(sensorCfg)
         sensor.notifyOnStateChange(sensorChanged)
         sensors.append(sensor)
+        
+        ## Publish initial state
+        topic = "hass/{}/{}".format(sensor.sensorType, sensor.sensorName)
+        state = sensor.getState()
+        for broker in brokers:
+            broker.publishOneShot(topic, state)
             
 if (__name__ == '__main__'):
     args = parseArgs()

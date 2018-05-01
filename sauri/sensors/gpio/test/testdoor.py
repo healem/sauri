@@ -16,19 +16,19 @@ class DoorTest(unittest.TestCase):
         
     @patch('RPi.GPIO.input')
     def test_getRawData(self, gpioMock):
-         gpioMock.return_value = 0
+         gpioMock.return_value = State.CLOSED
          sensor = Door(DoorTest.name, DoorTest.pin)
          self.assertEqual(sensor.getRawData(), State.CLOSED)
             
     @patch('RPi.GPIO.input')
     def test_getStateOpen(self, gpioMock):
-         gpioMock.return_value = 1
+         gpioMock.return_value = State.OPEN
          sensor = Door(DoorTest.name, DoorTest.pin)
          self.assertEqual(sensor.getState(), State.OPEN)
          
     @patch('RPi.GPIO.input')
     def test_getStateClosed(self, gpioMock):
-         gpioMock.return_value = 0
+         gpioMock.return_value = State.CLOSED
          sensor = Door(DoorTest.name, DoorTest.pin)
          self.assertEqual(sensor.getState(), State.CLOSED)
          
@@ -41,7 +41,7 @@ class DoorTest(unittest.TestCase):
     @patch('RPi.GPIO.remove_event_detect')
     @patch('RPi.GPIO.input')
     def test_notifyOnStateChangeClosed(self, gpioInputMock, gpioRemoveMock, gpioAddMock):
-         gpioInputMock.return_value = 0
+         gpioInputMock.return_value = State.OPEN
          sensor = Door(DoorTest.name, DoorTest.pin)
          sensor.notifyOnStateChange(self.dummyCallback)
          self.assertEqual(sensor.callback, self.dummyCallback)
@@ -50,14 +50,14 @@ class DoorTest(unittest.TestCase):
     @patch('RPi.GPIO.remove_event_detect')
     @patch('RPi.GPIO.input')
     def test_notifyOnStateChangeOpen(self, gpioInputMock, gpioRemoveMock, gpioAddMock):
-         gpioInputMock.return_value = 1
+         gpioInputMock.return_value = State.CLOSED
          sensor = Door(DoorTest.name, DoorTest.pin)
          sensor.notifyOnStateChange(self.dummyCallback)
          self.assertEqual(sensor.callback, self.dummyCallback)        
 
     @patch('RPi.GPIO.input')
     def test_handleStateChangeNoCallback(self, gpioInputMock):
-         gpioInputMock.return_value = 0
+         gpioInputMock.return_value = State.OPEN
          sensor = Door(DoorTest.name, DoorTest.pin)
          sensor.callback = None
          with self.assertRaises(ValueError):
@@ -68,7 +68,7 @@ class DoorTest(unittest.TestCase):
     @patch('RPi.GPIO.remove_event_detect')
     @patch('RPi.GPIO.input')
     def test_handleStateChangeSuccess(self, gpioInputMock, gpioRemoveMock, gpioAddMock, notifyMock):
-         gpioInputMock.return_value = 0
+         gpioInputMock.return_value = State.OPEN
          sensor = Door(DoorTest.name, DoorTest.pin)
          sensor.callback = self.dummyCallback
          sensor._handleStateChange(23)

@@ -1,3 +1,3 @@
 class State:
-    OPEN = 0
-    CLOSED = 1
+    OPEN = 1
+    CLOSED = 0

@@ -27,8 +27,8 @@ class MQTTBase(object):
         self.client.on_disconnect = self._on_disconnect
         self.client.on_publish = self._on_publish
         self.client.on_log = self._on_log
-        #self.client.tls_set(ca_certs=self.caCertsFile, certfile=self.certFile, keyfile=self.keyFile, cert_reqs=ssl.CERT_NONE,tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
-        #self.client.tls_insecure_set(True)
+        self.client.tls_set(ca_certs=self.caCertsFile, certfile=self.certFile, keyfile=self.keyFile, cert_reqs=ssl.CERT_NONE,tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
+        self.client.tls_insecure_set(True)
         self.connected = False
         
     def connect(self):
@@ -36,6 +36,7 @@ class MQTTBase(object):
         logger.debug("Connecting to MQTT broker {}:{}".format(self.host, self.port))
         self.client.connect(self.host, port=self.port, keepalive=60, bind_address="")
         logger.debug("Connected to MQTT broker {}:{}".format(self.host, self.port))
+        self.client.loop_start()
         
     def reconnect(self):
         """ Check if the channel and connection are open, if not then reconnect"""
@@ -44,7 +45,9 @@ class MQTTBase(object):
         
     def disconnect(self):
         """ Disconnect from broker """
+        self.client.loop_stop()
         self.client.disconnect()
+        self.connected = False
         logger.debug("Disconnected from MQTT broker {}:{}".format(self.host, self.port))
         
     def _on_connect(self, client, userdata, flags, rc):
@@ -64,7 +67,7 @@ class MQTTBase(object):
         else:
             logger.error("Connection to broker {} failed for unknown reason".format(self.host))
             
-    def _on_disconnect(client, userdata, rc):
+    def _on_disconnect(self, client, userdata, rc):
         logger.debug("Disconnection successful to {}".format(self.host))
         self.connected = False
 

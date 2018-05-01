@@ -1,0 +1,165 @@
+homeassistant:
+  name: Home
+  latitude: 41.970788
+  longitude: -71.906578
+  elevation: 350
+  temperature_unit: F
+  time_zone: America/New_York
+  unit_system: imperial
+  customize:
+    binary_sensor.garage_door:
+      friendly_name: Garage Door
+      icon: mdi:door
+    binary_sensor.mudroom_door:
+      friendly_name: Mudroom Door
+      icon: mdi:door
+    binary_sensor.front_door:
+      friendly_name: Front Door
+      icon: mdi:door
+    binary_sensor.slider_door:
+      friendly_name: Slider Door
+      icon: mdi:door
+    binary_sensor.basement_door:
+      friendly_name: Basement Door
+      icon: mdi:door
+zone:
+  - name: Home
+    latitude: 41.970788
+    longitude: -71.906578
+    radius: 300
+    icon: mdi:home
+  - name: HPE
+    latitude: 42.291848
+    longitude: -71.572665
+    radius: 300
+    icon: mdi:briefcase
+logger:
+  default: warning
+  logs:
+    #homeassistant.components.mqtt: debug
+    #homeassistant.components.binary_sensor: debug
+    homeassistant.components.device_tracker: debug
+    homeassistant.components.ios: debug
+http:
+  api_password: !secret http_password
+  trusted_networks:
+    - 127.0.0.1
+    - 192.168.0.0/24
+    - 192.168.1.0/24
+frontend:
+discovery:
+config:
+map:
+notify:
+  - name: PushBullet
+    platform: pushbullet
+    api_key: !secret pushbullet_api_key
+#weather:
+#  - platform: openweathermap
+#    api_key: !secret openweather_api_key
+ios:
+sensor:
+  - platform: wunderground
+    api_key: !secret wunderground_api_key
+    monitored_conditions:
+      - alerts
+      - weather
+      - precip_today_in
+      - relative_humidity
+      - temp_f
+      - UV
+      - weather_1d
+      - temp_high_1d_f
+      - temp_low_1d_f
+      - wind_1d_mph
+      - precip_1d_in
+      - precip_1d
+camera:
+  - platform: uvc
+    nvr: 192.168.0.10
+    key: !secret uvc_api_key
+    port: 7080
+    password: !secret uvc_password
+mqtt:
+  broker: 192.168.0.10
+  port: 8883
+  tls_version: '1.2'
+  tls_insecure: true
+  certificate: /config/security/ca_certificate.pem
+  client_key: /config/security/client_key.pem
+  client_cert: /config/security/client_certificate.pem
+binary_sensor:
+  - name: "Garage Door"
+    platform: mqtt
+    state_topic: "hass/door/garageDoor"
+    payload_on: "1"
+    payload_off: "0"
+    device_class: door
+  - name: "Mudroom Door"
+    platform: mqtt
+    state_topic: "hass/door/mudRoomDoor"
+    payload_on: "1"
+    payload_off: "0"
+    device_class: door
+  - name: "Front Door"
+    platform: mqtt
+    state_topic: "hass/door/frontDoor"
+    payload_on: "1"
+    payload_off: "0"
+    device_class: door
+  - name: "Slider Door"
+    platform: mqtt
+    state_topic: "hass/door/sliderDoor"
+    payload_on: "1"
+    payload_off: "0"
+    device_class: door
+  - name: "Basement Door"
+    platform: mqtt
+    state_topic: "hass/door/basementDoor"
+    payload_on: "1"
+    payload_off: "0"
+    device_class: door
+group:
+  security_view:
+    name: Security
+    view: yes
+    icon: mdi:security-home
+    entities:
+      - group.security
+      - camera.diningroom
+      - camera.frontporch
+  people_view:
+    name: People
+    view: yes
+    icon: mdi:account-multiple
+    entities:
+      - group.mike
+  security:
+    name: Security
+    entities:
+      - binary_sensor.garage_door
+      - binary_sensor.mudroom_door
+      - binary_sensor.front_door
+      - binary_sensor.slider_door
+      - binary_sensor.basement_door
+  weather:
+    name: Weather
+    entities:
+      - sensor.pws_alerts
+      - sensor.pws_weather
+      - sensor.pws_precip_today_in
+      - sensor.pws_relative_humidity
+      - sensor.pws_temp_f
+      - sensor.pws_UV
+      - sensor.pws_weather_1d
+      - sensor.pws_temp_high_1d_f
+      - sensor.pws_temp_low_1d_f
+      - sensor.pws_wind_1d_mph
+      - sensor.pws_precip_1d_in
+      - sensor.pws_precip_1d
+  mike:
+    name: Mike
+    entities:
+      - device_tracker.mike_healeys_iphone
+      - sensor.mike_healeys_iphone_battery_state
+      - sensor.mike_healeys_iphone_battery_level

@@ -109,6 +109,20 @@ sudo cp etc/systemd/hass.service /etc/systemd/system
 # Rescan systemd daemon
 sudo systemctl daemon-reload
 
+################ Mosquitto
 
+# Get container
+sudo docker pull eclipse-mosquitto
+
+# Create directories
+mkdir -p /mnt/fatboy/sauron/mosquitto/conf
+mkdir -p /mnt/fatboy/sauron/mosquitto/log
+mkdir -p /mnt/fatboy/sauron/mosquitto/data
+
+# Install systemd service file
+sudo cp etc/systemd/mosquitto.service /etc/systemd/system
+
+# Rescan systemd daemon
+sudo systemctl daemon-reload
 
 

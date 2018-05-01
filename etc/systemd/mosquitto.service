@@ -1,0 +1,17 @@
+[Unit]
+Description=Mosquitto Server
+Requires=docker.service
+After=docker.service mnt-fatboy.mount
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --name mosquitto -h mosquitto -p 9001:9001 -p 8883:8883 \
+          -v /mnt/fatboy/sauron/mosquitto/conf/:/mosquitto/config \
+          -v /mnt/fatboy/sauron/mosquitto/log/:/mosquitto/log \
+          -v /mnt/fatboy/sauron/mosquitto/data/:/mosquitto/data \
+          eclipse-mosquitto:latest
+ExecStop=/usr/bin/docker stop -t 20 mosquitto
+ExecStopPost=/usr/bin/docker rm mosquitto
+
+[Install]
+WantedBy=default.target

@@ -32,7 +32,7 @@ LOGGING = {
 
             'backupCount': 5,
 
-            'level':'DEBUG',
+            'level':'INFO',
 
             'formatter': 'default',
 
