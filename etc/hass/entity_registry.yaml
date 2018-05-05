@@ -17,8 +17,8 @@ switch.loft_bed_light:
 sensor.sarah_healeys_iphone6p_battery_level:
   name:
   platform: ios
-  unique_id: level_sarah_healeys_iphone_2
+  unique_id: level_sarah_healeys_iphone6p
 sensor.sarah_healeys_iphone6p_battery_state:
   name:
   platform: ios
-  unique_id: state_sarah_healeys_iphone_2
+  unique_id: state_sarah_healeys_iphone6p
