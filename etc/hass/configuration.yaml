@@ -40,6 +40,7 @@ logger:
     #homeassistant.components.binary_sensor: debug
     homeassistant.components.device_tracker: debug
     homeassistant.components.ios: debug
+    homeassistant.components.wemo: debug
 http:
   api_password: !secret http_password
   trusted_networks:
@@ -50,6 +51,7 @@ frontend:
 discovery:
 config:
 map:
+automation:
 notify:
   - name: PushBullet
     platform: pushbullet
@@ -57,7 +59,18 @@ notify:
 #weather:
 #  - platform: openweathermap
 #    api_key: !secret openweather_api_key
+wemo:
+  static:
+    - 192.168.1.211
+    - 192.168.1.210
 ios:
+#device_tracker:
+#  - platform: asuswrt
+#    host: 192.168.1.2
+#    mode: ap
+#    require_ip: true
+#    username: admin
+#    password: !secret asus_password
 sensor:
   - platform: wunderground
     api_key: !secret wunderground_api_key
@@ -134,6 +147,7 @@ group:
     icon: mdi:account-multiple
     entities:
       - group.mike
+      - group.sarah
   security:
     name: Security
     entities:
@@ -163,3 +177,7 @@ group:
       - device_tracker.mike_healeys_iphone
       - sensor.mike_healeys_iphone_battery_state
       - sensor.mike_healeys_iphone_battery_level
+  sarah:
+    name: Sarah
+    entities:
+      - device_tracker.sarah_healeys_iphone

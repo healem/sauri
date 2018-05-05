@@ -1,0 +1,16 @@
+sensor.mike_healeys_iphone_battery_level:
+  name:
+  platform: ios
+  unique_id: level_mike_healeys_iphone
+sensor.mike_healeys_iphone_battery_state:
+  name:
+  platform: ios
+  unique_id: state_mike_healeys_iphone
+switch.loft_main_switch:
+  name: Loft Main Lights
+  platform: wemo
+  unique_id: '123456789001'
+switch.loft_bed_light:
+  name:
+  platform: wemo
+  unique_id: 221336K13001AD

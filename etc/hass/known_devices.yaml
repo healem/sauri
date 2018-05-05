@@ -1,0 +1,58 @@
+
+mike_healeys_iphone:
+  hide_if_away: false
+  icon: mdi:guy-fawkes-mask
+  mac: 60:FA:CD:9F:87:33
+  name: Mike Healey iPhone
+  picture:
+  track: true
+  vendor:
+
+sarah_healeys_iphone:
+  hide_if_away: false
+  icon: mdi:human-female
+  mac: 4C:32:75:E0:4D:AC
+  name: Sarah Healey iPhone
+  picture:
+  track: true
+  vendor:
+
+edge_router:
+  hide_if_away: false
+  icon: mdi:switch
+  mac: 44:D9:E7:9F:9D:00
+  name: edge_router
+  picture:
+  track: false
+
+windows_pc:
+  hide_if_away: false
+  icon: mdi:desktop-classic
+  mac: 1C:1B:0D:69:F6:7D
+  name: Windows PC
+  picture:
+  track: false
+
+wii:
+  hide_if_away: false
+  icon:
+  mac: 00:17:AB:DF:8D:A0
+  name: wii
+  picture:
+  track: false
+
+loft_bed_light:
+  hide_if_away: false
+  icon:
+  mac: EC:1A:59:E9:D3:DD
+  name: Loft Bed Light
+  picture:
+  track: false
+
+loft_main_lights:
+  hide_if_away: false
+  icon:
+  mac: B4:75:0E:0C:23:B1
+  name: Loft Main Lights
+  picture:
+  track: false
