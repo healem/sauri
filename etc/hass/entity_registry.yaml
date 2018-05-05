@@ -14,3 +14,11 @@ switch.loft_bed_light:
   name:
   platform: wemo
   unique_id: 221336K13001AD
+sensor.sarah_healeys_iphone6p_battery_level:
+  name:
+  platform: ios
+  unique_id: level_sarah_healeys_iphone_2
+sensor.sarah_healeys_iphone6p_battery_state:
+  name:
+  platform: ios
+  unique_id: state_sarah_healeys_iphone_2

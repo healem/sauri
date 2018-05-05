@@ -8,15 +8,6 @@ mike_healeys_iphone:
   track: true
   vendor:
 
-sarah_healeys_iphone:
-  hide_if_away: false
-  icon: mdi:human-female
-  mac: 4C:32:75:E0:4D:AC
-  name: Sarah Healey iPhone
-  picture:
-  track: true
-  vendor:
-
 edge_router:
   hide_if_away: false
   icon: mdi:switch
@@ -56,3 +47,11 @@ loft_main_lights:
   name: Loft Main Lights
   picture:
   track: false
+
+sarah_healeys_iphone6p:
+  hide_if_away: false
+  icon: mdi:human-female
+  mac:
+  name: Sarah Healey iPhone6+ 
+  picture:
+  track: true

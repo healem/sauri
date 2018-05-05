@@ -180,4 +180,6 @@ group:
   sarah:
     name: Sarah
     entities:
-      - device_tracker.sarah_healeys_iphone
+      - device_tracker.sarah_healeys_iphone6p
+      - sensor.sarah_healeys_iphone6p_battery_state
+      - sensor.sarah_healeys_iphone6p_battery_level
