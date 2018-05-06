@@ -22,3 +22,31 @@ sensor.sarah_healeys_iphone6p_battery_state:
   name:
   platform: ios
   unique_id: state_sarah_healeys_iphone6p
+sensor.sarah_healeys_iphone_2_battery_state:
+  name:
+  platform: ios
+  unique_id: state_sarah_healeys_iphone_2
+sensor.sarah_healeys_iphone_2_battery_level:
+  name:
+  platform: ios
+  unique_id: level_sarah_healeys_iphone_2
+switch.loft_main:
+  name:
+  platform: wemo
+  unique_id: 221404K13002CE
+switch.dining_room__back:
+  name:
+  platform: wemo
+  unique_id: 221341K1300900
+switch.maddy_sound_machine:
+  name:
+  platform: wemo
+  unique_id: 221742K011DA66
+switch.living_room_wall_:
+  name:
+  platform: wemo
+  unique_id: 221604K130097A
+switch.sean_sound_machine:
+  name:
+  platform: wemo
+  unique_id: 221742K010BCCA

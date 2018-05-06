@@ -1,0 +1,38 @@
+## Startup
+- id: on_startup
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: scene.turn_on
+    entity_id: scene.sound_machines_on
+
+## Sound Machine handling
+- id: turn_off_sound_machines_morning
+  trigger:
+    platform: time
+    at: '07:00:00'
+  action:
+    service: scene.turn_on
+    entity_id: scene.sound_machines_off
+- id: enable_sound_machine_outlets_morning
+  trigger:
+    platform: time
+    at: '07:15:00'
+  action:
+    service: scene.turn_on
+    entity_id: scene.sound_machines_on
+- id: turn_off_sound_machines_3pm
+  trigger:
+    platform: time
+    at: '15:00:00'
+  action:
+    service: scene.turn_on
+    entity_id: scene.sound_machines_off
+- id: enable_sound_machine_outlets_3pm
+  trigger:
+    platform: time
+    at: '15:15:00'
+  action:
+    service: scene.turn_on
+    entity_id: scene.sound_machines_on

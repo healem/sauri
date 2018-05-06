@@ -1,0 +1,6 @@
+- name: sound_machines_off
+  entities:
+    group.sound_machines: off
+- name: sound_machines_on
+  entities:
+    group.sound_machines: on

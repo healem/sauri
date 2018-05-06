@@ -48,6 +48,14 @@ loft_main_lights:
   picture:
   track: false
 
+dining_back_light:
+  hide_if_away: false
+  icon:
+  mac: B4:75:0E:09:57:ED
+  name: Diningroom Back Lights
+  picture:
+  track: false
+
 sarah_healeys_iphone6p:
   hide_if_away: false
   icon: mdi:human-female
