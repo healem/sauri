@@ -3,3 +3,4 @@ coverage
 PyYAML
 pika
 paho-mqtt
+RPi.GPIO

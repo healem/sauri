@@ -1,5 +1,5 @@
 import ssl
-from pika import ConnectionParameters,BlockingConnection
+from pika import ConnectionParameters,BlockingConnection,SSLOptions
 from pika.exceptions import ConnectionClosed,ChannelClosed,ChannelError,AMQPConnectionError
 import logging
 
@@ -29,16 +29,20 @@ class AMQPBase(object):
     def connect(self):
         """ Connect to broker """
         logger.debug("Connecting to AMQP broker {}:{}".format(self.host, self.port))
+        try:
+            context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+            context.verify_mode = ssl.CERT_REQUIRED
+            context.load_verify_locations(cafile=self.caCertsFile)
+            context.load_cert_chain(self.certFile, keyfile=self.keyFile)
+            ssloptions = SSLOptions(context)
+        except Exception:
+            ssloptions = None
+
         conn_params = ConnectionParameters(
                         host=self.host,
                         port=self.port,
-                        ssl=True,
-                        ssl_options=dict(
-                            ssl_version=ssl.PROTOCOL_TLSv1_2,
-                            ca_certs=self.caCertsFile,
-                            keyfile=self.keyFile,
-                            certfile=self.certFile,
-                            cert_reqs=ssl.CERT_REQUIRED))
+                        ssl_options=ssloptions
+                    )
 
         if self.connection is not None:
             logger.debug("Connect called on {}:{}, but connection already defined.  Disconnecting and reconnecting".format(self.host, self.port))

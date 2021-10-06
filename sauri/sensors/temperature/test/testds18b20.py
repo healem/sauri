@@ -60,56 +60,56 @@ class Ds18b20Test(unittest.TestCase):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.goodData)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempC(), 25.187)
             
     def test_getFGood(self):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.goodData)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempF(), 77.3366)
             
     def test_getCBadCRC(self):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.badCrc)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempC(), None)
             
     def test_getCZero(self):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.zeroTemp)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempC(), 0.0)
             
     def test_getCNoTemp(self):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.noTemp)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempC(), None)
             
     def test_getCEmptyTemp(self):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.empty)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempC(), None)
                 
     def test_getCInvalidTemp(self):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.invalidTemp)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempC(), None)
                 
     def test_getFBadCRC(self):
         sensor = self._getSensor()
         
         openMock = mock_open(read_data=Ds18b20Test.badCrc)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getTempF(), None)
         
 

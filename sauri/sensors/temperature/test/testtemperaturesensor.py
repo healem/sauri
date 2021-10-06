@@ -25,7 +25,7 @@ class TempSensorTest(unittest.TestCase):
         
         sensor = Ds18b20(TempSensorTest.name, 'C', "/file")
         openMock = mock_open(read_data=TempSensorTest.goodData)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getData(), 25.187)
             
     @patch('os.path.isfile')
@@ -34,7 +34,7 @@ class TempSensorTest(unittest.TestCase):
         
         sensor = Ds18b20(TempSensorTest.name, 'F', "/file")
         openMock = mock_open(read_data=TempSensorTest.goodData)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             self.assertEqual(sensor.getData(), 77.3366)
             
     @patch('os.path.isfile')
@@ -43,6 +43,6 @@ class TempSensorTest(unittest.TestCase):
         
         sensor = Ds18b20(TempSensorTest.name, 'Q', "/file")
         openMock = mock_open(read_data=TempSensorTest.goodData)
-        with patch('__builtin__.open', openMock) as mockFile:
+        with patch('builtins.open', openMock) as mockFile:
             with self.assertRaises(ValueError):
                 sensor.getData()

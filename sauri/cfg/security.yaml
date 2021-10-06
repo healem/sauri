@@ -24,8 +24,8 @@ brokers :
     - name : hass
       protocol : mqtt
       type : blocking
-      address : 192.168.0.10
+      address : 192.168.4.10
       port : 8883
-      ca_certs : /etc/sauri/security/ca_certificate.pem
-      key_file : /etc/sauri/security/client_key.pem
-      cert_file : /etc/sauri/security/client_certificate.pem
+      ca_certs : /etc/home/ssl/fullchain.pem
+      key_file : /etc/home/ssl/privkey.pem
+      cert_file : /etc/home/ssl/fullchain.pem

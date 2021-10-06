@@ -85,9 +85,11 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
         self.broker.unsubscribe()
         BlockingBrokerAMQPTest.logger.info("Pika unsubscribe calls: {}".format(pikaMock.mock_calls))
         pikaMock.return_value.channel.return_value.stop_consuming.assert_called
-        
+     
+    @patch('messaging.blocking.amqpbase.SSLOptions', None)
+    @patch('messaging.blocking.amqpbase.ssl.SSLContext')
     @patch('messaging.blocking.amqpbase.BlockingConnection')
-    def test_goodSubscribeThree(self, pikaMock):
+    def test_goodSubscribeThree(self, pikaMock, sslMock):
         self.broker = self._getBroker()
         
         exchange = "testExchange"
@@ -115,7 +117,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
     @patch('messaging.blocking.amqpbase.BlockingConnection')
     def test_SubscribeBadSingleQueueBind(self, pikaMock):
         # ConnectionClosed
-        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ConnectionClosed("Boom"), None]
+        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ConnectionClosed(1, "Boom"), None]
         self.broker = self._getBroker()
         
         exchange = "testExchange"
@@ -125,7 +127,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
         self.broker.unsubscribe()
         self.broker.disconnect()
         
-        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ChannelClosed("Boom"), None]
+        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ChannelClosed(1, "Boom"), None]
         self.broker.subscribe(self.testCallback, topics, exchange)
         self.broker.unsubscribe()
         self.broker.disconnect()
@@ -147,7 +149,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
         
     @patch('messaging.blocking.amqpbase.BlockingConnection')
     def test_SubscribeBadDoubleQueueBind(self, pikaMock):
-        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ConnectionClosed("Boom"), ConnectionClosed("Boom2")]
+        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ConnectionClosed(1, "Boom"), ConnectionClosed(1, "Boom2")]
         self.broker = self._getBroker()
         
         exchange = "testExchange"
@@ -157,7 +159,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
             self.broker.subscribe(self.testCallback, topics, exchange)
         self.broker.disconnect()
         
-        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ChannelClosed("Boom"), ChannelClosed("Boom2")]
+        pikaMock.return_value.channel.return_value.queue_bind.side_effect=[ChannelClosed(1, "Boom"), ChannelClosed(1, "Boom2")]
         with self.assertRaises(ChannelClosed):
             self.broker.subscribe(self.testCallback, topics, exchange)
         self.broker.disconnect()
@@ -180,7 +182,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
     @patch('messaging.blocking.amqpbase.BlockingConnection')
     def test_SubscribeBadSingleQueueCreate(self, pikaMock):
         # ConnectionClosed
-        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ConnectionClosed("Boom"), pikaMock.return_value.channel.return_value.queue_declare.return_value]
+        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ConnectionClosed(1, "Boom"), pikaMock.return_value.channel.return_value.queue_declare.return_value]
         self.broker = self._getBroker()
         
         exchange = "testExchange"
@@ -190,7 +192,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
         self.broker.unsubscribe()
         self.broker.disconnect()
         
-        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ChannelClosed("Boom"), pikaMock.return_value.channel.return_value.queue_declare.return_value]
+        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ChannelClosed(1, "Boom"), pikaMock.return_value.channel.return_value.queue_declare.return_value]
         self.broker.subscribe(self.testCallback, topics, exchange)
         self.broker.unsubscribe()
         self.broker.disconnect()
@@ -212,7 +214,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
         
     @patch('messaging.blocking.amqpbase.BlockingConnection')
     def test_SubscribeBadDoubleQueueCreate(self, pikaMock):
-        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ConnectionClosed("Boom"), ConnectionClosed("Boom2")]
+        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ConnectionClosed(1, "Boom"), ConnectionClosed(1, "Boom2")]
         self.broker = self._getBroker()
         
         exchange = "testExchange"
@@ -222,7 +224,7 @@ class BlockingBrokerAMQPTest(unittest.TestCase):
             self.broker.subscribe(self.testCallback, topics, exchange)
         self.broker.disconnect()
         
-        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ChannelClosed("Boom"), ChannelClosed("Boom2")]
+        pikaMock.return_value.channel.return_value.queue_declare.side_effect=[ChannelClosed(1, "Boom"), ChannelClosed(1, "Boom2")]
         with self.assertRaises(ChannelClosed):
             self.broker.subscribe(self.testCallback, topics, exchange)
         self.broker.disconnect()

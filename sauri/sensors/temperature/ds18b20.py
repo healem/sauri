@@ -54,11 +54,11 @@ class Ds18b20(TemperatureSensor):
             #Parse it, it should be good
             temp = self._rawToC(lines[1])
             logger.debug("Got temp in {}C from {} at {}".format(temp, self.sensorName, self.sensorPath))
-        except ValueError, ve:
+        except ValueError as ve:
             # Handle the case where the CRC is correct, but we get garbage on temp line
             logger.error("No temperature from sensor {} at {}".format(self.sensorName, self.sensorPath))
             temp = None
-        except IndexError, ae:
+        except IndexError as ae:
             # Handle the case where the CRC is correct, but we get garbage on temp line
             logger.error("Empty temperature from sensor {} at {}".format(self.sensorName, self.sensorPath))
             temp = None
