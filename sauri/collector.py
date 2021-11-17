@@ -39,7 +39,7 @@ def runCollection():
         # topic = "{}.{}".format(sensor.topicPrefix, sensor.defaultUnit)
         logger.info(f"Sensor {topic} reports: {reading}")
         for broker in brokers:
-            broker.publish(exchange, topic, reading)
+            broker.publishOneShot(topic, reading)
             
 if (__name__ == '__main__'):
     args = parseArgs()
