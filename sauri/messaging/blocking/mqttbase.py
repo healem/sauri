@@ -1,7 +1,10 @@
 import ssl
 import paho.mqtt.client as MQTT
 import logging
+import os
 
+MQTT_USERNAME = os.environ.get("MQTT_USERNAME", None)
+MQTT_PASSWORD = os.environ.get("MQTT_PASSWORD", None)
 logger = logging.getLogger(__name__)
 
 class MQTTBase(object):
@@ -27,8 +30,18 @@ class MQTTBase(object):
         self.client.on_disconnect = self._on_disconnect
         self.client.on_publish = self._on_publish
         self.client.on_log = self._on_log
-        self.client.tls_set(ca_certs=self.caCertsFile, certfile=self.certFile, keyfile=self.keyFile, cert_reqs=ssl.CERT_NONE,tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
-        self.client.tls_insecure_set(True)
+
+        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+        context.verify_mode = ssl.CERT_REQUIRED
+        context.load_verify_locations(cafile=self.caCertsFile)
+        # context.load_cert_chain(self.certFile, keyfile=self.keyFile)
+        # self.client.tls_set_context(context=context)
+        # self.client.tls_set(ca_certs=self.caCertsFile, certfile=self.certFile, keyfile=self.keyFile, cert_reqs=ssl.CERT_NONE,tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
+        # self.client.tls_set(ca_certs=self.caCertsFile, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
+        # self.client.tls_insecure_set(True)
+        if MQTT_USERNAME and MQTT_PASSWORD:
+            self.client.username_pw_set(MQTT_USERNAME, password=MQTT_PASSWORD)
+
         self.connected = False
         
     def connect(self):

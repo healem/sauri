@@ -32,7 +32,7 @@ LOGGING = {
 
             'backupCount': 5,
 
-            'level':'INFO',
+            'level':'DEBUG',
 
             'formatter': 'default',
 
@@ -58,7 +58,7 @@ LOGGING = {
 
         'handlers': ['file', 'console'],
 
-        'level': 'DEBUG',
+        'level': 'INFO',
 
     },
 
