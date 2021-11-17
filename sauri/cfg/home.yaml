@@ -21,12 +21,11 @@ sensors:
       type : ds18b20
       units : F
 brokers :
-    - name : minix
-      protocol : amqp
+    - name : hass
+      protocol : mqtt
       type : blocking
-      address : 192.168.0.10
-      port : 5678
-      ssl_pass : lsuhertiohergnal4ghfsdbg
-      ca_certs : /etc/sauri/security/ca_certificate.pem
-      key_file : /etc/sauri/security/client_key.pem
-      cert_file : /etc/sauri/security/client_certificate.pem
+      address : 192.168.4.10
+      port : 1883
+      ca_certs : /etc/home/ssl/fullchain.pem
+      key_file : /etc/home/ssl/privkey.pem
+      cert_file : /etc/home/ssl/fullchain.pem

@@ -7,8 +7,10 @@ from sensors.temperature.temperatureSensor import TemperatureSensor
 from messaging.broker import Broker
 from messaging.factory import BrokerFactory
 import argparse
+import logging
 
 loginit.initLogging()
+logger = logging.getLogger()
 
 exchange = "sauri"
 sensors =[]
@@ -33,7 +35,9 @@ def initialize(cfg):
 def runCollection():
     for sensor in sensors:
         reading = sensor.getData()
-        topic = "{}.{}".format(sensor.topicPrefix, sensor.defaultUnit)
+        topic = "hass/{}/{}".format(sensor.sensorType, sensor.sensorName)
+        # topic = "{}.{}".format(sensor.topicPrefix, sensor.defaultUnit)
+        logger.info(f"Sensor {topic} reports: {reading}")
         for broker in brokers:
             broker.publish(exchange, topic, reading)
             
@@ -43,5 +47,5 @@ if (__name__ == '__main__'):
     initialize(cfg)
     while True:
         runCollection()
-        time.sleep(30)
+        sleep(args.interval)
         
